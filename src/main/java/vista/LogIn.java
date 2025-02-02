@@ -20,9 +20,8 @@ public class LogIn extends javax.swing.JFrame {
     }
     
     public boolean confirmarEmpleado(String cedulaEmpleado, String clave){
-        boolean confirmacion = false;
+        boolean confirmacion = true;
         //Se llamara la funcion que confirme la cedula y la clave del empleado, en caso de ser correcto arrojara true
-        System.out.println(confirmacion);
         return confirmacion;
     }
     
@@ -33,12 +32,10 @@ public class LogIn extends javax.swing.JFrame {
         boolean confirmacion = confirmarEmpleado(cedula, clave);
         
         if (confirmacion == true){
-            System.out.println("True");
             Menu menu = new Menu();
             menu.setVisible(true);
             this.setVisible(false);
         }else{
-            System.out.println("Error de ingreso");
             JOptionPane.showMessageDialog(null, "Error: Cédula o clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

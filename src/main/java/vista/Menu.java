@@ -30,6 +30,7 @@ public class Menu extends javax.swing.JFrame {
         btAgregarProductoNuevo = new javax.swing.JButton();
         btEditarProducto = new javax.swing.JButton();
         btEditarProducto1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -39,10 +40,32 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(80, 40));
 
         btAgregarProductoNuevo.setText("Agregar producto nuevo");
+        btAgregarProductoNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAgregarProductoNuevoActionPerformed(evt);
+            }
+        });
 
         btEditarProducto.setText("Editar productos");
+        btEditarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarProductoActionPerformed(evt);
+            }
+        });
 
         btEditarProducto1.setText("Registro Operaciones");
+        btEditarProducto1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarProducto1ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Sali de cuenta");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -53,11 +76,16 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(268, 268, 268))
             .addGroup(layout.createSequentialGroup()
-                .addGap(348, 348, 348)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btEditarProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btEditarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btAgregarProductoNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(348, 348, 348)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btEditarProducto1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btEditarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btAgregarProductoNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(385, 385, 385)
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -71,11 +99,37 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(btEditarProducto)
                 .addGap(34, 34, 34)
                 .addComponent(btEditarProducto1)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jButton1)
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btAgregarProductoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAgregarProductoNuevoActionPerformed
+        AgregarProducto ap = new AgregarProducto();
+        ap.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btAgregarProductoNuevoActionPerformed
+
+    private void btEditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarProductoActionPerformed
+        EditarProducto ep = new EditarProducto();
+        ep.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btEditarProductoActionPerformed
+
+    private void btEditarProducto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarProducto1ActionPerformed
+        RegistroOperaciones ro = new RegistroOperaciones();
+        ro.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btEditarProducto1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        LogIn logIn = new LogIn();
+        logIn.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -86,6 +140,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btAgregarProductoNuevo;
     private javax.swing.JButton btEditarProducto;
     private javax.swing.JButton btEditarProducto1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
