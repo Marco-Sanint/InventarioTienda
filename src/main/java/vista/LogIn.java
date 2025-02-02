@@ -4,6 +4,8 @@
  */
 package vista;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DELL
@@ -15,6 +17,30 @@ public class LogIn extends javax.swing.JFrame {
      */
     public LogIn() {
         initComponents();
+    }
+    
+    public boolean confirmarEmpleado(String cedulaEmpleado, String clave){
+        boolean confirmacion = false;
+        //Se llamara la funcion que confirme la cedula y la clave del empleado, en caso de ser correcto arrojara true
+        System.out.println(confirmacion);
+        return confirmacion;
+    }
+    
+    public void ingresarAlSistema(){
+        String cedula = txtCedulaEmpleado.getText();
+        String clave = txtClave.getText();
+        
+        boolean confirmacion = confirmarEmpleado(cedula, clave);
+        
+        if (confirmacion == true){
+            System.out.println("True");
+            Menu menu = new Menu();
+            menu.setVisible(true);
+            this.setVisible(false);
+        }else{
+            System.out.println("Error de ingreso");
+            JOptionPane.showMessageDialog(null, "Error: Cédula o clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -29,7 +55,7 @@ public class LogIn extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtCedulaEmpleado = new javax.swing.JTextField();
-        txtContraseña = new javax.swing.JTextField();
+        txtClave = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btEnterLogIn = new javax.swing.JButton();
 
@@ -50,54 +76,58 @@ public class LogIn extends javax.swing.JFrame {
             }
         });
 
-        txtContraseña.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtContraseña.addActionListener(new java.awt.event.ActionListener() {
+        txtClave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtContraseñaActionPerformed(evt);
+                txtClaveActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Contraseña:");
+        jLabel3.setText("Clave:");
 
         btEnterLogIn.setText("Enter");
+        btEnterLogIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEnterLogInActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(387, 387, 387)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(395, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btEnterLogIn))
+                        .addGap(387, 387, 387)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(309, 309, 309)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCedulaEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                            .addComponent(txtContraseña))))
-                .addContainerGap(373, Short.MAX_VALUE))
+                        .addGap(341, 341, 341)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btEnterLogIn)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCedulaEmpleado)
+                                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(363, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(66, 66, 66)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
+                .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCedulaEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(37, 37, 37)
                 .addComponent(btEnterLogIn)
@@ -111,9 +141,13 @@ public class LogIn extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCedulaEmpleadoActionPerformed
 
-    private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
+    private void txtClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClaveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtContraseñaActionPerformed
+    }//GEN-LAST:event_txtClaveActionPerformed
+
+    private void btEnterLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnterLogInActionPerformed
+        ingresarAlSistema();
+    }//GEN-LAST:event_btEnterLogInActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,6 +190,6 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField txtCedulaEmpleado;
-    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JTextField txtClave;
     // End of variables declaration//GEN-END:variables
 }
