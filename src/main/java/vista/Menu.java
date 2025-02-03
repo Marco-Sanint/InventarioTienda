@@ -114,8 +114,8 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btAgregarProductoNuevoActionPerformed
 
     private void btEditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarProductoActionPerformed
-        EditarProducto ep = new EditarProducto();
-        ep.setVisible(true);
+        BuscarProducto bp = new BuscarProducto();
+        bp.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btEditarProductoActionPerformed
 
