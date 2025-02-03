@@ -42,6 +42,8 @@ public class BuscarProducto extends javax.swing.JFrame {
         listaCodigos.add("P002");
         listaCodigos.add("P003");
         listaCodigos.add("P004");
+        listaCodigos.add("P015");
+        listaCodigos.add("P014");
 
         modeloNombres = new DefaultListModel<>();
         for (String nombre : listaNombres) {
