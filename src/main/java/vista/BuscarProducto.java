@@ -4,20 +4,117 @@
  */
 package vista;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import modelo.Producto;
+
 /**
  *
  * @author DELL
  */
 public class BuscarProducto extends javax.swing.JFrame {
     private int estado = 0;
-    
-    /**
-     * Creates new form LogIn
-     */
+    private Producto producto = null;
+    private DefaultListModel<String> modeloNombres;
+    private DefaultListModel<String> modeloCodigos;
+    private List<String> listaNombres;
+    private List<String> listaCodigos; // Lista para códigos
+
     public BuscarProducto() {
         initComponents();
+        inicializarModelo();
+        agregarListener();
     }
 
+    private void inicializarModelo() {
+        // Inicializa la lista de nombres y códigos y los modelos
+        listaNombres = new ArrayList<>();
+        listaNombres.add("andres");
+        listaNombres.add("jant");
+        listaNombres.add("antonio");
+        listaNombres.add("albaro");
+
+        listaCodigos = new ArrayList<>();
+        listaCodigos.add("P001");
+        listaCodigos.add("P002");
+        listaCodigos.add("P003");
+        listaCodigos.add("P004");
+
+        modeloNombres = new DefaultListModel<>();
+        for (String nombre : listaNombres) {
+            modeloNombres.addElement(nombre);
+        }
+        liNombresProductos.setModel(modeloNombres);
+
+        modeloCodigos = new DefaultListModel<>();
+        for (String codigo : listaCodigos) {
+            modeloCodigos.addElement(codigo);
+        }
+        liCodigosProductos.setModel(modeloCodigos);
+    }
+
+    private void agregarListener() {
+        txtNombreProducto.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrarListaNombres();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarListaNombres();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarListaNombres();
+            }
+        });
+
+        txtCodigoProducto.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrarListaCodigos();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarListaCodigos();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarListaCodigos();
+            }
+        });
+    }
+
+    private void filtrarListaNombres() {
+        String textoBusqueda = txtNombreProducto.getText().toLowerCase();
+        modeloNombres.clear(); // Limpiar el modelo actual
+
+        for (String nombre : listaNombres) {
+            if (nombre.toLowerCase().startsWith(textoBusqueda)) {
+                modeloNombres.addElement(nombre); // Agregar nombres que coinciden
+            }
+        }
+    }
+
+    private void filtrarListaCodigos() {
+        String textoBusqueda = txtCodigoProducto.getText().toLowerCase();
+        modeloCodigos.clear(); // Limpiar el modelo actual
+
+        for (String codigo : listaCodigos) {
+            if (codigo.toLowerCase().startsWith(textoBusqueda)) {
+                modeloCodigos.addElement(codigo); // Agregar códigos que coinciden
+            }
+        }
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,6 +157,12 @@ public class BuscarProducto extends javax.swing.JFrame {
         lsCodigo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lsCodigo.setText("Por Codigo:");
 
+        txtNombreProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreProductoActionPerformed(evt);
+            }
+        });
+
         liNombresProductos.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { " " };
             public int getSize() { return strings.length; }
@@ -68,13 +171,19 @@ public class BuscarProducto extends javax.swing.JFrame {
         jScrollPane2.setViewportView(liNombresProductos);
 
         btnEnterNombre.setText("Enter");
+        btnEnterNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnterNombreActionPerformed(evt);
+            }
+        });
 
         btnEnterCodigo.setText("Enter");
-        btnEnterCodigo.setEnabled(false);
 
-        txtCodigoProducto.setEnabled(false);
-
-        jScrollPane3.setEnabled(false);
+        txtCodigoProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoProductoActionPerformed(evt);
+            }
+        });
 
         jScrollPane3.setViewportView(liCodigosProductos);
 
@@ -99,11 +208,12 @@ public class BuscarProducto extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(85, 85, 85)
                         .addComponent(lsCodigo))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtCodigoProducto)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnEnterCodigo)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCodigoProducto)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(8, 8, 8)))
                 .addGap(53, 53, 53))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,7 +232,7 @@ public class BuscarProducto extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(tbtCambiar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(laNombre)
                     .addComponent(lsCodigo))
@@ -133,42 +243,51 @@ public class BuscarProducto extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEnterNombre))
+                        .addComponent(btnEnterNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtCodigoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEnterCodigo)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbtCambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbtCambiarActionPerformed
-        if (estado == 0){
+        if (estado == 0) {
             this.estado = 1;
-            
-            txtNombreProducto.setEditable(false);
-            liNombresProductos.setEnabled(false);
+
             btnEnterNombre.setEnabled(false);
-            
-            txtCodigoProducto.setEditable(true);
-            liCodigosProductos.setEnabled(true);
             btnEnterCodigo.setEnabled(true);
-        }else{
+            
+        } else {
             this.estado = 0;
-            
-            txtNombreProducto.setEditable(true);
-            liNombresProductos.setEnabled(true);
+
             btnEnterNombre.setEnabled(true);
-            
-            txtCodigoProducto.setEditable(false);
-            liCodigosProductos.setEnabled(false);
             btnEnterCodigo.setEnabled(false);
         }
+
     }//GEN-LAST:event_tbtCambiarActionPerformed
+
+    private void txtCodigoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoProductoActionPerformed
+
+    private void txtNombreProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreProductoActionPerformed
+
+    private void btnEnterNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterNombreActionPerformed
+        String nombre = txtNombreProducto.getText();
+        
+        EditarProducto ep = new EditarProducto();
+        ep.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnEnterNombreActionPerformed
 
     /**
      * @param args the command line arguments
