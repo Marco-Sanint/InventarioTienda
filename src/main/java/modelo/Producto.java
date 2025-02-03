@@ -24,12 +24,9 @@ public class Producto {
         this.stock = stock;
     }
 
-    public int getId() {
+    // Getters y Setters
+    public int getIdProducto() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -53,6 +50,9 @@ public class Producto {
     }
 
     public void setPrecio(double precio) {
+        if (precio < 0) {
+            throw new IllegalArgumentException("El precio no puede ser negativo");
+        }
         this.precio = precio;
     }
 
@@ -61,7 +61,9 @@ public class Producto {
     }
 
     public void setStock(int stock) {
+        if (stock < 0) {
+            throw new IllegalArgumentException("La cantidad no puede ser negativa");
+        }
         this.stock = stock;
     }
-
 }

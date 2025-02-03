@@ -17,13 +17,26 @@ public class Tienda {
     private String nombre;
     private String lugar;
     private List<Producto> inventario;
+    private List<Empleado> empleados; // Lista de empleados
 
     public Tienda(String nombre, String lugar) {
-        this.lugar = lugar;
         this.nombre = nombre;
+        this.lugar = lugar;
         this.inventario = new ArrayList<>();
+        this.empleados = new ArrayList<>(); // Inicializamos la lista de empleados
     }
 
+    // Métodos para agregar, eliminar, editar empleados
+    public void agregarEmpleado(int id, String nombre, String rol) {
+        Empleado empleado = new Empleado(id, nombre, rol);
+        empleados.add(empleado);
+    }
+
+    public void eliminarEmpleado(int id) {
+        empleados.removeIf(empleado -> empleado.getId() == id);
+    }
+
+    // Getters y setters
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -46,5 +59,9 @@ public class Tienda {
 
     public List<Producto> getInventario() {
         return inventario;
+    }
+
+    public List<Empleado> getEmpleados() {
+        return empleados;
     }
 }
