@@ -12,12 +12,12 @@ public class Empleado {
 
     private int id;
     private String nombre;
-    private int rol;
+    private String rol;
 
-    public Empleado(int id, String nombre, int rol) {
+    public Empleado(int id, String nombre, String rol) {
         this.id = id;
         this.nombre = nombre;
-        this.rol = rol;
+        this.rol = nombre;
     }
 
     public int getId() {
@@ -36,11 +36,20 @@ public class Empleado {
         this.nombre = nombre;
     }
 
-    public int getRol() {
+    public String getRol() {
         return rol;
     }
 
-    public void setRol(int rol) {
+    public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    @Override
+    public String toString() {
+        return "Empleado{"
+                + "id=" + id
+                + ", nombre='" + nombre + '\''
+                + ", puesto='" + rol + '\''
+                + '}';
     }
 }
