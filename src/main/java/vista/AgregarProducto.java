@@ -4,19 +4,25 @@
  */
 package vista;
 
+import excepciones.ProductoExistenteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.Tienda;
 
 /**
  *
  * @author DELL
  */
 public class AgregarProducto extends javax.swing.JFrame {
-
+    public Tienda tienda;
+    
     /**
      * Creates new form LogIn
      */
     public AgregarProducto() {
         initComponents();
+        tienda = Tienda.getInstancia("Tienda Don Pedro", "UAM");
     }
     
     public boolean confirmarCampos(String id, String nombre, String descripcion, String precioStr, String stockStr) {
@@ -50,18 +56,7 @@ public class AgregarProducto extends javax.swing.JFrame {
         return true;
     }
     
-    public boolean confirmarIdYNombreUnico(String id, String nombre){
-        boolean cinu = true; //Se llamara una funcion que compruebe estos datos
-        
-        if (!cinu) {
-        JOptionPane.showMessageDialog(null, "ID o nombre ya ocupado, favor cambiarlo.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    return cinu;
-
-    }
-    
-    public void agregarProductoNuevo(){
+    public void agregarProductoNuevo() throws ProductoExistenteException{
         String id = txtID.getText();
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
@@ -69,15 +64,22 @@ public class AgregarProducto extends javax.swing.JFrame {
         String stockStr = txtStock.getText();
         boolean cc = confirmarCampos(id, nombre, descripcion, precioStr, stockStr);
         boolean ctd = confirmarTipoDato(precioStr, stockStr);
-        boolean cinu = confirmarIdYNombreUnico(id, nombre);
         
-        if (cc && ctd && cinu){
+        if (cc && ctd){
             double precio = Double.parseDouble(precioStr); // Cambiar a parseDouble
             int stock = Integer.parseInt(stockStr);
             
-            //Llamar la fucnion que crea el producto
+            tienda.agregarProducto(id, nombre, descripcion, precio, stock);
+            
+            JOptionPane.showMessageDialog(this, "Producto agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            Menu menu = new Menu();
+            menu.setVisible(true);
+            this.setVisible(false);
         }
-
+    }
+    
+    public void setTienda(){
+        LogIn logIn = new LogIn();
     }
 
     /**
@@ -264,7 +266,11 @@ public class AgregarProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtStockActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
-        agregarProductoNuevo();
+        try {
+            agregarProductoNuevo();
+        } catch (ProductoExistenteException ex) {
+            Logger.getLogger(AgregarProducto.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed

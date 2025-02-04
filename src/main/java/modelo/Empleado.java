@@ -10,21 +10,31 @@ package modelo;
  */
 public class Empleado {
 
-    private int id;
+    private String id;
     private String nombre;
     private String rol;
+    private String password;
 
-    public Empleado(int id, String nombre, String rol) {
+    public Empleado(String id, String nombre, String rol, String password) {
         this.id = id;
         this.nombre = nombre;
-        this.rol = nombre;
+        this.rol = rol;
+        this.password = password;
     }
 
-    public int getId() {
+    public boolean verificarCedula(String cedula) {
+        return this.id.equals(cedula);
+    }
+    
+    public boolean verificarPassword(String password) {
+        return this.password.equals(password);
+    }
+    
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -44,12 +54,16 @@ public class Empleado {
         this.rol = rol;
     }
 
+    public String getPassword() {
+        return password; 
+    }
+
     @Override
     public String toString() {
         return "Empleado{"
                 + "id=" + id
                 + ", nombre='" + nombre + '\''
-                + ", puesto='" + rol + '\''
+                + ", rol='" + rol + '\''
                 + '}';
     }
 }

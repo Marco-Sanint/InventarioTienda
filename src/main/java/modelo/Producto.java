@@ -10,13 +10,13 @@ package modelo;
  */
 public class Producto {
 
-    private int id;
+    private String id;
     private String nombre;
     private String descripcion;
     private double precio;
     private int stock;
 
-    public Producto(int id, String nombre, String descripcion, double precio, int stock) {
+    public Producto(String id, String nombre, String descripcion, double precio, int stock) {
         this.descripcion = descripcion;
         this.id = id;
         this.nombre = nombre;
@@ -25,7 +25,7 @@ public class Producto {
     }
 
     // Getters y Setters
-    public int getIdProducto() {
+    public String getIdProducto() {
         return id;
     }
 

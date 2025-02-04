@@ -4,24 +4,32 @@
  */
 package vista;
 
+import java.awt.HeadlessException;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import modelo.Tienda;
 
 /**
  *
  * @author DELL
  */
 public class LogIn extends javax.swing.JFrame {
+    private Tienda tienda;
 
     /**
      * Creates new form LogIn
      */
     public LogIn() {
         initComponents();
+        tienda = new Tienda("Tienda Don Pedro", "UAM");
     }
+
     
     public boolean confirmarEmpleado(String cedulaEmpleado, String clave){
-        boolean confirmacion = true;
-        //Se llamara la funcion que confirme la cedula y la clave del empleado, en caso de ser correcto arrojara true
+        boolean confirmacion = tienda.verificarEmpleado(cedulaEmpleado, clave);
+        
         return confirmacion;
     }
     

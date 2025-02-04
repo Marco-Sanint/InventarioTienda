@@ -10,52 +10,46 @@ import javax.swing.DefaultListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import modelo.Producto;
+import modelo.Tienda;
 
 /**
  *
  * @author DELL
  */
 public class BuscarProducto extends javax.swing.JFrame {
+    private Tienda tienda;
+    
     private int estado = 0;
-    private Producto producto = null;
+    
     private DefaultListModel<String> modeloNombres;
     private DefaultListModel<String> modeloCodigos;
-    private List<String> listaNombres;
-    private List<String> listaCodigos; // Lista para códigos
 
     public BuscarProducto() {
         initComponents();
         inicializarModelo();
         agregarListener();
+        
+        tienda = Tienda.getInstancia("Tienda Don Pedro", "UAM");
+        cargarProductos(); // Cargar productos al iniciar
     }
 
     private void inicializarModelo() {
-        // Inicializa la lista de nombres y códigos y los modelos
-        listaNombres = new ArrayList<>();
-        listaNombres.add("andres");
-        listaNombres.add("jant");
-        listaNombres.add("antonio");
-        listaNombres.add("albaro");
-
-        listaCodigos = new ArrayList<>();
-        listaCodigos.add("P001");
-        listaCodigos.add("P002");
-        listaCodigos.add("P003");
-        listaCodigos.add("P004");
-        listaCodigos.add("P015");
-        listaCodigos.add("P014");
-
         modeloNombres = new DefaultListModel<>();
-        for (String nombre : listaNombres) {
-            modeloNombres.addElement(nombre);
-        }
         liNombresProductos.setModel(modeloNombres);
 
         modeloCodigos = new DefaultListModel<>();
-        for (String codigo : listaCodigos) {
-            modeloCodigos.addElement(codigo);
-        }
         liCodigosProductos.setModel(modeloCodigos);
+    }
+
+    private void cargarProductos() {
+        modeloNombres.clear();
+        modeloCodigos.clear();
+
+        // Obtener la lista de productos de la tienda
+        for (Producto producto : tienda.generarInformeStock()) {
+            modeloNombres.addElement(producto.getNombre());
+            modeloCodigos.addElement(producto.getIdProducto());
+        }
     }
 
     private void agregarListener() {
@@ -98,8 +92,9 @@ public class BuscarProducto extends javax.swing.JFrame {
         String textoBusqueda = txtNombreProducto.getText().toLowerCase();
         modeloNombres.clear(); // Limpiar el modelo actual
 
-        for (String nombre : listaNombres) {
-            if (nombre.toLowerCase().startsWith(textoBusqueda)) {
+        // Obtener la lista de nombres de productos
+        for (String nombre : tienda.listaNombres()) {
+            if (nombre.toLowerCase().contains(textoBusqueda)) { // Cambiado a contains para coincidencias parciales
                 modeloNombres.addElement(nombre); // Agregar nombres que coinciden
             }
         }
@@ -109,13 +104,21 @@ public class BuscarProducto extends javax.swing.JFrame {
         String textoBusqueda = txtCodigoProducto.getText().toLowerCase();
         modeloCodigos.clear(); // Limpiar el modelo actual
 
-        for (String codigo : listaCodigos) {
-            if (codigo.toLowerCase().startsWith(textoBusqueda)) {
-                modeloCodigos.addElement(codigo); // Agregar códigos que coinciden
+        // Obtener la lista de IDs de productos
+        for (String id : tienda.listaID()) {
+            if (id.toLowerCase().contains(textoBusqueda)) { // Cambiado a contains para coincidencias parciales
+                modeloCodigos.addElement(id); // Agregar códigos que coinciden
             }
         }
     }
-
+    
+    private Producto buscarPorNombre (String nombre){
+        return tienda.buscarProductosPorNombree(nombre);
+    }
+    
+    private Producto buscarPorID (String id){
+        return tienda.buscarProductosPorID(id);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -286,8 +289,11 @@ public class BuscarProducto extends javax.swing.JFrame {
     private void btnEnterNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterNombreActionPerformed
         String nombre = txtNombreProducto.getText();
         
+        Producto p = buscarPorNombre(nombre);
+        
         EditarProducto ep = new EditarProducto();
         ep.setVisible(true);
+        ep.setProducto(p);
         this.setVisible(false);
     }//GEN-LAST:event_btnEnterNombreActionPerformed
 

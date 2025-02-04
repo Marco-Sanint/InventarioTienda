@@ -30,7 +30,7 @@ public class RegistroDeOperaciones {
             String fechaHora = formatter.format(new Date());
 
             
-            String registro = String.format("[%s] Operación: %s | Usuario: %s | IP: %s | Producto: %s (ID: %d, Nombre: %s, Precio: %.2f, Stock: %d)%n",
+            String registro = String.format("[%s] Operación: %s | Usuario: %s | IP: %s | Producto: %s (ID: %s, Nombre: %s, Precio: %.2f, Stock: %d)%n",
                     fechaHora, operacion, usuario, ip, producto.getNombre(), producto.getIdProducto(), producto.getNombre(), producto.getPrecio(), producto.getStock());
 
             

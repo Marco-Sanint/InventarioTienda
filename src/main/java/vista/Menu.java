@@ -4,12 +4,14 @@
  */
 package vista;
 
+import modelo.Tienda;
+
 /**
  *
  * @author DELL
  */
 public class Menu extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form LogIn
      */

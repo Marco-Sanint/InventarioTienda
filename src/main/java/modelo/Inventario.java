@@ -8,109 +8,99 @@ import excepciones.ProductoExistenteException;
 import excepciones.ProductoNoEncontradoException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import util.RegistroDeOperaciones;
 
 /**
  *
  * @author Isa
  */
-public class Inventario {
+public class Inventario implements IGestorInventario{
 
-    private List<Producto> productos = new ArrayList<>(); // Usamos una lista para almacenar los productos
+    private Map<String , Producto> productos = new ConcurrentHashMap<>();
 
     /**
-     * Este método agrega un producto al inventario, verificando si ya existe.
-     * Si el producto existe, lanza una excepción.
+     * sirve para una búsqueda rápida - Map<Integer, Producto> -> Declara un
+     * mapa donde el integer representa id del producto y producto es la
+     * instancia del producto asociado - new ConcurrentHashMap<>() -> Es
+     * utilizada para cuando se están } ejecutando varios hilos (procesos),
+     * almacena los datos clave-valor y acceso rápido
+     *
      */
-    public void agregarProducto(int idProducto, String nombre, String descripcion, double precio, int cantidad) throws ProductoExistenteException {
-        // Verificamos si el producto ya existe por ID
-        for (Producto producto : productos) {
-            if (producto.getIdProducto() == idProducto) {
-                throw new ProductoExistenteException("El producto ya existe en el inventario.");
-            }
-        }
 
+    @Override
+    public void agregarProducto(String idProducto, String nombre, String descripcion, double precio, int cantidad) throws ProductoExistenteException {
+        if (productos.containsKey(idProducto)) {
+            throw new ProductoExistenteException("El producto ya existe en el inventario");
+        }
         Producto producto = new Producto(idProducto, nombre, descripcion, precio, cantidad);
-        productos.add(producto);  // Añadimos el producto a la lista
+        productos.put(idProducto, producto);
         RegistroDeOperaciones.registrarOperacion("Agregar Producto", "Admin", "127.0.0.1", producto);
     }
 
-    /**
-     * Este método elimina un producto del inventario. Si el producto no se
-     * encuentra, lanza una excepción.
-     */
-    public void eliminarProducto(int idProducto) throws ProductoNoEncontradoException {
-        Producto productoParaEliminar = null;
-
-        // Buscamos el producto a eliminar
-        for (Producto producto : productos) {
-            if (producto.getIdProducto() == idProducto) {
-                productoParaEliminar = producto;
-                break;
-            }
+    @Override
+    public void eliminarProducto(String idProducto) throws ProductoNoEncontradoException {
+        if (!productos.containsKey(idProducto)) {
+            throw new ProductoNoEncontradoException("El producto no existe");
         }
-
-        if (productoParaEliminar == null) {
-            throw new ProductoNoEncontradoException("El producto no existe.");
-        }
-
-        productos.remove(productoParaEliminar); // Eliminamos el producto de la lista
-        RegistroDeOperaciones.registrarOperacion("Eliminar Producto", "Admin", "127.0.0.1", productoParaEliminar);
+        Producto producto = productos.get(idProducto);
+        productos.remove(idProducto);
+        RegistroDeOperaciones.registrarOperacion("Eliminar Producto", "Admin", "127.0.0.1", producto);
     }
 
-    /**
-     * Este método edita un producto en el inventario. Si no se encuentra, lanza
-     * una excepción.
-     */
-    public void editarProducto(int idProducto, String nombre, String descripcion, Double precio, Integer cantidad) throws ProductoNoEncontradoException {
-        Producto productoParaEditar = null;
+    @Override
+    public void editarProducto(Producto p, String nombre, String descripcion, Double precio, Integer cantidad) throws ProductoNoEncontradoException {
 
-        // Buscamos el producto a editar
-        for (Producto producto : productos) {
-            if (producto.getIdProducto() == idProducto) {
-                productoParaEditar = producto;
-                break;
-            }
-        }
-
-        if (productoParaEditar == null) {
-            throw new ProductoNoEncontradoException("El producto no existe.");
-        }
-
-        // Editamos los campos que no sean nulos
+        Producto producto = p;
         if (nombre != null) {
-            productoParaEditar.setNombre(nombre);
+            producto.setNombre(nombre);
         }
         if (descripcion != null) {
-            productoParaEditar.setDescripcion(descripcion);
+            producto.setDescripcion(descripcion);
         }
         if (precio != null) {
-            productoParaEditar.setPrecio(precio);
+            producto.setPrecio(precio);
         }
         if (cantidad != null) {
-            productoParaEditar.setStock(cantidad);
+            producto.setStock(cantidad);
         }
-
-        RegistroDeOperaciones.registrarOperacion("Editar Producto", "Admin", "127.0.0.1", productoParaEditar);
+        RegistroDeOperaciones.registrarOperacion("Editar Producto", "Admin", "127.0.0.1", p);
     }
 
-    /**
-     * Este método busca productos por nombre.
-     */
-    public List<Producto> buscarProductosPorNombre(String nombre) {
-        List<Producto> productosEncontrados = new ArrayList<>();
-        for (Producto producto : productos) {
-            if (producto.getNombre().equalsIgnoreCase(nombre)) {
-                productosEncontrados.add(producto);
-            }
-        }
-        return productosEncontrados;
+    @Override
+    public Producto buscarProductosPorNombre(String nombre) {
+        return productos.values().stream()
+                .filter(p -> p.getNombre().equalsIgnoreCase(nombre))
+                .findFirst() // Devuelve un Optional<Producto>
+                .orElse(null); // Retorna null si no se encuentra el producto
     }
 
-    /**
-     * Este método genera un informe con todos los productos del inventario.
-     */
+    @Override
+    public Producto buscarProductosPorID(String id) {
+        return productos.values().stream()
+                .filter(p -> p.getIdProducto().equalsIgnoreCase(id))
+                .findFirst() // Devuelve un Optional<Producto>
+                .orElse(null); // Retorna null si no se encuentra el producto
+    }
+    
+    @Override
     public List<Producto> generarInformeStock() {
-        return new ArrayList<>(productos);  // Devuelve todos los productos en una lista
+        return new ArrayList<>(productos.values());
+    }
+
+    @Override
+    public List<String> listaNombres() {
+        return productos.values().stream()
+            .map(Producto::getNombre) // Extrae el nombre de cada producto
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> listaID() {
+        return productos.values().stream()
+            .map(Producto::getIdProducto) // Extrae el ID de cada producto
+            .collect(Collectors.toList());
     }
 }
